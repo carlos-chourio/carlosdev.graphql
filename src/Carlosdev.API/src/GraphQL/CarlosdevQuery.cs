@@ -1,7 +1,8 @@
-﻿using Carlosdev.Domain.Post;
-using Carlosdev.GraphQL.Types;
+﻿using Carlosdev.GraphQL.Types;
+using Carlosdev.Posts;
 using GraphQL.Types;
 using System;
+using System.Linq;
 
 namespace Carlosdev.GraphQL {
     public class CarlosdevQuery : ObjectGraphType {
@@ -11,12 +12,12 @@ namespace Carlosdev.GraphQL {
             QueryArguments = CreateQueryArguments();
         }
 
-        public CarlosdevQuery(PostFactory postFactory) {
+        public CarlosdevQuery(PostRepository postRepository) {
             Field<ListGraphType<PostType>>("Posts", "Returns Posts",
-                resolve: t => postFactory.GetPosts());
+                resolve: t => postRepository.GetPosts().ToList());
             Field<PostType>("Post","Return a Post corresponding to the given id",
                 QueryArguments,
-                resolve: t => postFactory.GetPost((int)t.Arguments["id"]));
+                resolve: t => postRepository.GetPost((Guid)t.Arguments["id"]));
         }
 
         private QueryArguments CreateQueryArguments() {

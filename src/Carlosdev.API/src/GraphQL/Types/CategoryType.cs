@@ -1,4 +1,4 @@
-﻿using Carlosdev.Domain.Post;
+﻿using Carlosdev.Domain.Posts;
 using GraphQL.Types;
 
 namespace Carlosdev.GraphQL.Types {

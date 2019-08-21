@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace Carlosdev.Domain.Post {
+namespace Carlosdev.Domain.Posts {
     public enum Category {
         Technology,
         [Description(".NET")]
