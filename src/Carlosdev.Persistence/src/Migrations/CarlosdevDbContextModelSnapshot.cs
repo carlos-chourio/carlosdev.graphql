@@ -15,27 +15,22 @@ namespace carlosdev.persistence.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.0.0-preview8.19405.11")
+                .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("Carlosdev.Domain.Comment.Comment", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Content")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("Content");
 
-                    b.Property<Guid>("PostId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<Guid>("PostId");
 
-                    b.Property<string>("Title")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("Title");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<int>("UserId");
 
                     b.HasKey("Id");
 
@@ -45,26 +40,19 @@ namespace carlosdev.persistence.Migrations
             modelBuilder.Entity("Carlosdev.Domain.Posts.Post", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("AuthorId")
-                        .HasColumnType("int");
+                    b.Property<int?>("AuthorId");
 
-                    b.Property<int>("Category")
-                        .HasColumnType("int");
+                    b.Property<int>("Category");
 
-                    b.Property<string>("Content")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("Content");
 
-                    b.Property<DateTime>("PublicationDate")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTime>("PublicationDate");
 
-                    b.Property<int>("Rating")
-                        .HasColumnType("int");
+                    b.Property<int>("Rating");
 
-                    b.Property<string>("Title")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("Title");
 
                     b.HasKey("Id");
 
@@ -77,23 +65,17 @@ namespace carlosdev.persistence.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("Email");
 
-                    b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("FirstName");
 
-                    b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("LastName");
 
-                    b.Property<string>("Password")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("Password");
 
-                    b.Property<string>("UserName")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("UserName");
 
                     b.HasKey("Id");
 

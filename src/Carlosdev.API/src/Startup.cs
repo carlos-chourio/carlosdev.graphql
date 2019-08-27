@@ -12,6 +12,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Carlosdev.Posts;
 using Carlosdev.Comments;
+using System;
+using System.Threading.Tasks;
 
 namespace Carlosdev {
     public class Startup
@@ -31,11 +33,11 @@ namespace Carlosdev {
             });
             AddRepositories(services);
             services.AddDbContext<CarlosdevDbContext>(t =>
-            t.UseSqlServer(Configuration.GetConnectionString("Default"),
-                x => x.MigrationsAssembly("Carlosdev.Persistence")));
+                t.UseSqlServer(Configuration.GetConnectionString("Default")));
             services.AddScoped<IDependencyResolver>(s => new FuncDependencyResolver(s.GetRequiredService));
             services.AddScoped<CarlosdevSchema>();
             services.AddGraphQL(t => t.ExposeExceptions = false)
+                    .AddUserContextBuilder(httpContext => httpContext.User) // Pass the current user to GraphQL to perform authorization
                     .AddGraphTypes(ServiceLifetime.Scoped)
                     .AddDataLoader();
         }

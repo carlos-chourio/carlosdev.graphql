@@ -14,10 +14,16 @@ namespace Carlosdev.Comments {
             this.context = context;
         }
 
+        public async Task<IEnumerable<Comment>> GetCommentsAsync() {
+            var comments =context.Comment;
+            return await comments.ToListAsync();
+        }
+
         public async Task<IDictionary<Guid, IEnumerable<Comment>>> GetCommentsByPostIds(IEnumerable<Guid> postIds) {
-            var comments = context.Comment.Where(c => postIds.Contains(c.PostId))
-            .ToLookup(t=> t.PostId).ToDictionary(t => t.Key, t=> t.AsEnumerable());
-            return comments;
+            var comments = await context.Comment.Where(c => postIds.Contains(c.PostId)).ToListAsync();
+            var result = comments.ToLookup(t => t.PostId)
+            .ToDictionary(t => t.Key, t=> t.AsEnumerable());
+            return result; //Task.FromResult((IDictionary<Guid,IEnumerable<Comment>>)comments);
         }
     }
 }

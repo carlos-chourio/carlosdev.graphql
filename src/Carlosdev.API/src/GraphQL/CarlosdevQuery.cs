@@ -1,36 +1,36 @@
 ﻿using Carlosdev.GraphQL.Types;
 using Carlosdev.Posts;
 using GraphQL.Types;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
+using System.Security.Claims;
 
 namespace Carlosdev.GraphQL {
     public class CarlosdevQuery : ObjectGraphType {
-        private QueryArguments QueryArguments { get;set; }
-
-        public CarlosdevQuery() {
-            QueryArguments = CreateQueryArguments();
-        }
 
         public CarlosdevQuery(PostRepository postRepository) {
             Field<ListGraphType<PostType>>("Posts", "Returns Posts",
-                resolve: t => postRepository.GetPosts().ToList());
+                resolve: t => {
+                    var x = (ClaimsPrincipal) t.UserContext;
+                    // check user.Claims
+                    return postRepository.GetPosts().ToListAsync();
+                }
+            );
+
             Field<PostType>("Post","Return a Post corresponding to the given id",
-                QueryArguments,
-                resolve: t => postRepository.GetPost((Guid)t.Arguments["id"]));
-        }
+                new QueryArguments(new QueryArgument<IdGraphType>() {
+                    Name = "id",
+                    Description = "Identity of the entity"
+                }),
+                resolve: t => {
+                    var user = (ClaimsPrincipal)t.UserContext;
+                    // check user.Claims
+                    Guid id = t.GetArgument<Guid>("id");
+                    return postRepository.GetPost(id);
+                }
+            );
 
-        private QueryArguments CreateQueryArguments() {
-            var queryArguments = new QueryArguments();
-            queryArguments.Add(CreateQueryArgument<int>("id", "Identity of the entity"));
-            return queryArguments;
-        }
-
-        private QueryArgument CreateQueryArgument<TType>(string name, string description = "") {
-            var queryArgument = new QueryArgument(typeof(TType));
-            queryArgument.Name = name;
-            queryArgument.Description = description;
-            return queryArgument;
         }
     }
 }
